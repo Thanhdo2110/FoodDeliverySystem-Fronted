@@ -1,13 +1,11 @@
-// src/components/Menubar/Menubar.jsx
 import React, { useContext } from 'react';
 import './Menubar.css';
 import { assets } from '../../assets/assets';
 import { Link } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 
-const Menubar = () => {
 
-  
+const Menubar = () => {
   const { foodList, quantities } = useContext(StoreContext);
 
   const totalItems = foodList.reduce((total, food) => total + (quantities[food.id] || 0), 0);
@@ -15,7 +13,7 @@ const Menubar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
-       
+        {/* Logo */}
         <Link to="/">
           <img
             src={assets.logo}
@@ -38,7 +36,7 @@ const Menubar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        
+        {/* Navigation Items */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -52,9 +50,8 @@ const Menubar = () => {
             </li>
           </ul>
 
-          
+          {/* Cart and Authentication Buttons */}
           <div className="d-flex align-items-center gap-4">
-            
             <Link to="/cart" className="position-relative">
               <img
                 src={assets.cart}
@@ -64,12 +61,16 @@ const Menubar = () => {
                 className="position-relative"
               />
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                {totalItems} 
+                {totalItems}
               </span>
             </Link>
 
-            <button className="btn btn-outline-primary">Login</button>
-            <button className="btn btn-outline-success">Register</button>
+            <Link to="/login" className="btn btn-outline-primary">
+              Login
+            </Link>
+            <Link to="/register" className="btn btn-outline-success">
+              Register
+            </Link>
           </div>
         </div>
       </div>
