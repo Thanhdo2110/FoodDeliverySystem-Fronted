@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 
 const Menubar = () => {
+
+  
   const { foodList, quantities } = useContext(StoreContext);
 
   const totalItems = foodList.reduce((total, food) => total + (quantities[food.id] || 0), 0);

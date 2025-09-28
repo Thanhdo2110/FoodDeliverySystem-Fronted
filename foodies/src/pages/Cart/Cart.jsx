@@ -6,19 +6,18 @@ import './Cart.css';
 const Cart = () => {
   const { foodList, increaseQty, decreaseQty, quantities, removeFromCart } = useContext(StoreContext);
 
-  // Lọc các item có quantities > 0
+
   const cartItems = foodList.filter(food => quantities[food.id] > 0);
 
-  // Tính toán subtotal
+  
   const subtotal = cartItems.reduce((acc, food) => acc + food.price * quantities[food.id], 0);
 
-  // Tính toán shipping (giả định 0 nếu subtotal < 0, 10 nếu subtotal >= 0)
-  const shipping = subtotal > 0 ? 10.00 : 0.00;
+  
+  const shipping = subtotal > 0 ? 10000.00 : 0.00;
 
-  // Tính toán tax (10% của subtotal)
   const tax = subtotal * 0.1;
 
-  // Tính toán total
+  
   const total = subtotal + shipping + tax;
 
   return (
@@ -61,7 +60,7 @@ const Cart = () => {
                       </div>
                     </div>
                     <div className="col-md-2 text-end">
-                      <p className="mb-0">${(food.price * quantities[food.id]).toFixed(2)}</p>
+                      <p className="mb-0">{(food.price * quantities[food.id]).toLocaleString()} VND</p>
                       <button
                         className="btn btn-sm btn-outline-danger mt-2"
                         onClick={() => removeFromCart(food.id)}
@@ -75,7 +74,7 @@ const Cart = () => {
             </div>
           )}
           <Link
-            to="/" // Đường dẫn đến trang Home
+            to="/" 
             className="btn btn-outline-primary mb-4"
           >
             <i className="bi bi-arrow-left me-2"></i>Continue Shopping
@@ -89,25 +88,29 @@ const Cart = () => {
                   <h5 className="card-title mb-3">Order Summary</h5>
                   <div className="mb-2">
                     <span>Subtotal</span>
-                    <span className="float-end">${subtotal.toFixed(2)}</span>
+                    <span className="float-end">{subtotal.toLocaleString()} VND</span>
                   </div>
                   <div className="mb-2">
                     <span>Shipping</span>
-                    <span className="float-end">${shipping.toFixed(2)}</span>
+                    <span className="float-end">{shipping.toLocaleString()} VND</span>
                   </div>
                   <div className="mb-2">
                     <span>Tax</span>
-                    <span className="float-end">${tax.toFixed(2)}</span>
+                    <span className="float-end">{tax.toLocaleString()} VND</span>
                   </div>
                   <hr />
                   <div className="mb-2">
                     <strong>Total</strong>
-                    <strong className="float-end">${total.toFixed(2)}</strong>
+                    <strong className="float-end">{total.toLocaleString()} VND</strong>
                   </div>
-                  <button className="btn btn-primary w-100 mb-3">Proceed to Checkout</button>
+                  <Link 
+                    to="/order" 
+                    className="btn btn-primary w-100 mb-3"
+                  >
+                    Proceed to Checkout
+                  </Link>
                 </div>
               </div>
-              
             </div>
           )}
         </div>
