@@ -6,13 +6,14 @@ export const StoreContext = createContext(null);
 export const StoreContextProvider = (props) => {
   const [foodList, setFoodList] = useState([]);
   const [quantities, setQuantities] = useState({});
+  const [token, setToken] = useState(localStorage.getItem('token') || null); // Khởi tạo token từ localStorage
 
   const increaseQty = (foodId) => {
-    setQuantities((prev) => ({...prev, [foodId]: (prev[foodId] || 0)+1}));
+    setQuantities((prev) => ({ ...prev, [foodId]: (prev[foodId] || 0) + 1 }));
   };
 
   const decreaseQty = (foodId) => {
-    setQuantities((prev) => ({...prev, [foodId]: prev[foodId] > 0 ? prev[foodId] - 1 : 0}));
+    setQuantities((prev) => ({ ...prev, [foodId]: prev[foodId] > 0 ? prev[foodId] - 1 : 0 }));
   };
 
   const removeFromCart = (foodId) => {
@@ -28,13 +29,20 @@ export const StoreContextProvider = (props) => {
     increaseQty,
     decreaseQty,
     quantities,
-    removeFromCart
+    removeFromCart,
+    token, // Thêm token
+    setToken // Thêm setToken
   };
 
   useEffect(() => {
     async function loadData() {
-      const data = await fetchFoodList();
-      setFoodList(data);
+      try {
+        const data = await fetchFoodList();
+        setFoodList(data);
+      } catch (err) {
+        console.error('Failed to load foods', err);
+        setFoodList([]);
+      }
     }
     loadData();
   }, []);
